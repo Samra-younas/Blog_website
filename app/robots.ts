@@ -5,7 +5,7 @@ function getBaseUrl(): string {
   if (url) return url.replace(/\/$/, '');
   const vercel = process.env.VERCEL_URL;
   if (vercel) return `https://${vercel}`;
-  return 'http://localhost:3000';
+  return '';
 }
 
 export default function robots(): MetadataRoute.Robots {
