@@ -18,18 +18,22 @@ async function getPosts(page: number, category?: string, tag?: string) {
   params.set('status', 'published');
   if (category) params.set('category', category);
   if (tag) params.set('tag', tag);
+
   const res = await fetch(`/api/posts?${params}`, {
     next: { revalidate: 30 },
   });
+
   if (!res.ok) return { posts: [], totalPosts: 0, totalPages: 0, currentPage: 1 };
   return res.json();
 }
 
+
 async function getLatestPosts() {
-  const res = await fetch(
-    `/api/posts?limit=5&page=1&status=published`,
-    { next: { revalidate: 30 } }
-  );
+const res = await fetch(
+  `/api/posts?limit=5&page=1&status=published`,
+  { next: { revalidate: 30 } }
+);
+
   if (!res.ok) return [];
   const data = await res.json();
   return data.posts ?? [];
