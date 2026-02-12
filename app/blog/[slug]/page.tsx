@@ -8,8 +8,7 @@ type Props = {
 };
 
 async function getPost(slug: string) {
-  const base = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
-  const res = await fetch(`${base}/api/posts/${encodeURIComponent(slug)}`, {
+  const res = await fetch(`/api/posts/${encodeURIComponent(slug)}`, {
     next: { revalidate: 30 },
   });
   if (!res.ok) return null;
@@ -18,9 +17,8 @@ async function getPost(slug: string) {
 
 async function getRelatedPosts(category: string, excludeSlug: string) {
   if (!category) return [];
-  const base = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
   const res = await fetch(
-    `${base}/api/posts?limit=4&status=published&category=${encodeURIComponent(category)}`,
+    `/api/posts?limit=4&status=published&category=${encodeURIComponent(category)}`,
     { next: { revalidate: 30 } }
   );
   if (!res.ok) return [];

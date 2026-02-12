@@ -41,7 +41,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let postPages: MetadataRoute.Sitemap = [];
   try {
     const res = await fetch(
-      `${base}/api/posts?status=published&limit=500&page=1`,
+      `/api/posts?status=published&limit=500&page=1`,
       { next: { revalidate: 3600 } }
     );
     if (res.ok) {

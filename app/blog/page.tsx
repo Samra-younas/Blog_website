@@ -12,14 +12,13 @@ const CATEGORIES = [
 const LIMIT = 9;
 
 async function getPosts(page: number, category?: string, tag?: string) {
-  const base = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
   const params = new URLSearchParams();
   params.set('page', String(page));
   params.set('limit', String(LIMIT));
   params.set('status', 'published');
   if (category) params.set('category', category);
   if (tag) params.set('tag', tag);
-  const res = await fetch(`${base}/api/posts?${params}`, {
+  const res = await fetch(`/api/posts?${params}`, {
     next: { revalidate: 30 },
   });
   if (!res.ok) return { posts: [], totalPosts: 0, totalPages: 0, currentPage: 1 };
@@ -27,9 +26,8 @@ async function getPosts(page: number, category?: string, tag?: string) {
 }
 
 async function getLatestPosts() {
-  const base = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
   const res = await fetch(
-    `${base}/api/posts?limit=5&page=1&status=published`,
+    `/api/posts?limit=5&page=1&status=published`,
     { next: { revalidate: 30 } }
   );
   if (!res.ok) return [];

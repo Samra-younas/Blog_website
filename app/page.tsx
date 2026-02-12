@@ -12,8 +12,7 @@ const CATEGORIES = [
 
 async function getFeaturedPosts() {
   try {
-    const base = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
-    const res = await fetch(`${base}/api/posts?limit=3&status=published`, {
+    const res = await fetch(`/api/posts?limit=3&status=published`, {
       next: { revalidate: 60 },
     });
     if (!res.ok) return [];
