@@ -40,7 +40,7 @@ UserSchema.methods.comparePassword = async function (
   return bcrypt.compare(candidatePassword, this.password);
 };
 
-export interface UserDocument extends IUser, mongoose.Document {
+export interface UserDocument extends Omit<IUser, '_id'>, mongoose.Document {
   comparePassword(candidatePassword: string): Promise<boolean>;
 }
 
