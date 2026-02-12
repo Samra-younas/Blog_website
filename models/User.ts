@@ -2,7 +2,13 @@ import mongoose, { Model, Schema } from 'mongoose';
 import bcrypt from 'bcryptjs';
 import type { IUser } from '@/types';
 
-const UserSchema = new Schema<IUser>(
+interface IUserMethods {
+  comparePassword(candidatePassword: string): Promise<boolean>;
+}
+
+type UserModel = Model<IUser, {}, IUserMethods>;
+
+const UserSchema = new Schema<IUser, UserModel, IUserMethods>(
   {
     email: {
       type: String,
@@ -40,11 +46,6 @@ UserSchema.methods.comparePassword = async function (
   return bcrypt.compare(candidatePassword, this.password);
 };
 
-export interface UserDocument extends Omit<IUser, '_id'>, mongoose.Document {
-  comparePassword(candidatePassword: string): Promise<boolean>;
-}
-
-const User: Model<UserDocument> =
-  mongoose.models.User ?? mongoose.model<UserDocument>('User', UserSchema);
+const User = (mongoose.models.User as UserModel) ?? mongoose.model<IUser, UserModel>('User', UserSchema);
 
 export default User;
