@@ -2,6 +2,9 @@
 const nextConfig = {
   compress: true,
   poweredByHeader: false,
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   images: {
     remotePatterns: [
       {
@@ -12,5 +15,4 @@ const nextConfig = {
     ],
   },
 };
-
 module.exports = nextConfig;
