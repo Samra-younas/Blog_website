@@ -19,7 +19,8 @@ async function getPosts(page: number, category?: string, tag?: string) {
   if (category) params.set('category', category);
   if (tag) params.set('tag', tag);
 
-  const res = await fetch(`/api/posts?${params}`, {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+  const res = await fetch(`${baseUrl}/api/posts?${params}`, {
     next: { revalidate: 30 },
   });
 
@@ -27,12 +28,12 @@ async function getPosts(page: number, category?: string, tag?: string) {
   return res.json();
 }
 
-
 async function getLatestPosts() {
-const res = await fetch(
-  `/api/posts?limit=5&page=1&status=published`,
-  { next: { revalidate: 30 } }
-);
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+  const res = await fetch(
+    `${baseUrl}/api/posts?limit=5&page=1&status=published`,
+    { next: { revalidate: 30 } }
+  );
 
   if (!res.ok) return [];
   const data = await res.json();
